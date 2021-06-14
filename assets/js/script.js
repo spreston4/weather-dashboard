@@ -71,6 +71,16 @@ function getForecast(obj) {
 }
 
 // Function 'renderCurrentData' to display current weather data for selected location to 'currentDataEl'
+function renderCurrentData(obj) {
+
+    // Declare element variable to append data to
+
+    // Declare variables from passed object
+
+    // Declare template literal to append
+
+    // Append to page
+}
 
 // Function 'renderForecast' to display forecast data for selected location to 'resultsEl'
 
