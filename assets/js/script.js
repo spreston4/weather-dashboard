@@ -4,6 +4,7 @@ var searchButtonEl = $('#search-button');
 var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
+var currentDataEl = $('#current-data');
 var city = '';
 
 
@@ -42,17 +43,36 @@ function convertCity(event) {
 function getForecast(obj) {
 
     // Define variables for lat & long (needed for next API request)
+    var lat = obj.lat;
+    var lon = obj.lon;
+
+    console.log ('Lat: ' + lat);
+    console.log ('Lon: ' + lon);
 
     // Create fetch URL with new lat and long data
+    var forecastApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&appid=' + apiKey;
 
     // Fetch URL
+    fetch(forecastApi)
+
+        .then(function(response) {
+            return response.json();
+        })
+
+        .then (function(data) {
+            console.log('Coord Data:');
+            console.log(data);
+        })
 
     // Pass relevant info to the render function
+    renderCurrentData(data.current);
+
     
 }
 
+// Function 'renderCurrentData' to display current weather data for selected location to 'currentDataEl'
 
-// Function 'renderForecast' to display current forecast data to 'resultsEl'
+// Function 'renderForecast' to display forecast data for selected location to 'resultsEl'
 
 searchButtonEl.click(convertCity);
 
