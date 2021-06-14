@@ -9,16 +9,37 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <h1>
-            Weather Dashboard
-        </h1>
-    </header>
+    <!-- Header  / Search-->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand">Weather Dashboard</a>
+          
+          <form class="d-flex">
+            <input class="form-control me-2" id="search-form" type="search" placeholder="Search for a city" aria-label="Search">
+            <button class="btn btn-outline-success" id="searech-button" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
 
-    <!-- Search Form -->
+      <!-- Div to hold and display results -->
+      <div>
+          <!-- Display search history -->
+          <div id="history-container">
+
+          </div>
+
+          <!-- Display Search Results -->
+          <div id="results-container">
+
+          </div>
+
+      </div>
+
+   
     
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript" src="./assets/js/script.js"></script>
 </body>
 </html>
