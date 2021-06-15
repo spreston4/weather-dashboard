@@ -4,7 +4,6 @@ var searchButtonEl = $('#search-button');
 var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
-var currentDataEl = $('#current-data');
 var city = '';
 
 
@@ -74,8 +73,18 @@ function getForecast(obj) {
 function renderCurrentData(obj) {
 
     // Declare element variable to append data to
+    var currentDataEl = $('#current-data');
 
     // Declare variables from passed object
+    var currentTemp = obj.temp;
+    var currentHumidity = obj.humidity;
+    var currentWindSpeed = obj.wind_speed;
+    var currentUvIndex = obj.uvi;
+
+    console.log('Current Temp: ' + currentTemp);
+    console.log('Current Humidity: ' + currentHumidity);
+    console.log('Current Wind Speed: ' + currentWindSpeed);
+    console.log('Current UV Index: ' + currentUvIndex);
 
     // Declare template literal to append
 
