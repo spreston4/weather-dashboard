@@ -5,3 +5,29 @@
 .forecast-card {
     margin: 10px;
 }
+
+.lowUv {
+	background-color: green;
+	color: white;
+}
+
+.moderateUv {
+	background-color: yellow;
+	
+}
+
+.highUv {
+	background-color: red;
+	color: white;
+}
+
+.extremeUv {
+	background-color: purple;
+	color: white;
+}
+
+.uv-display {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 3px;
+}

@@ -84,11 +84,30 @@ function renderCurrentData(obj) {
     var currentWindSpeed = obj.wind_speed;
     var currentUvIndex = obj.uvi;
     var currentIcon = 'https://openweathermap.org/img/w/' + obj.weather[0].icon + '.png';
+    var uvColorClass = '';
 
     // console.log('Current Temp: ' + currentTemp);
     // console.log('Current Humidity: ' + currentHumidity);
     // console.log('Current Wind Speed: ' + currentWindSpeed);
     // console.log('Current UV Index: ' + currentUvIndex);
+
+    // Determine what category of current UV Index, pass appropriate styling.
+    if (currentUvIndex <= 5) {
+
+        uvColorClass = 'lowUv';
+
+    } else if (currentUvIndex > 5 && currentUvIndex <= 8) {
+
+        uvColorClass = 'moderateUv';
+
+    } else if (currentUvIndex > 8 && currentUvIndex <= 10) {
+
+        uvColorClass = 'highUv';
+
+    } else {
+
+        uvColorClass = 'extremeUv';
+    }
 
     // Declare template literal to append
     var currentWeatherContent = $(`
@@ -98,7 +117,7 @@ function renderCurrentData(obj) {
         <p class="card-text">Temperature: ${currentTemp} ℉ </p>
         <p class="card-text">Humidity: ${currentHumidity} % </p>
         <p class="card-text">Wind Speed: ${currentWindSpeed} MPH</p>
-        <p class="card-text">UV Index: ${currentUvIndex} </p>
+        <p class="card-text"> UV Index: <span class = "${uvColorClass} uv-display"> ${currentUvIndex} </span>
     </div>
     </div>
     `);
