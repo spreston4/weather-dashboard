@@ -15,7 +15,7 @@ function convertCity(event) {
 
     // Get city value from search bar
     city = searchFormEl.val();
-    console.log(city);
+    // console.log(city);
 
     // Create fetch URL with new city & apiKey data
     var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=standard&appid=' + apiKey;
@@ -28,8 +28,8 @@ function convertCity(event) {
         })
 
         .then(function(data) {
-            console.log('City Data: ');
-            console.log(data);
+            // console.log('City Data: ');
+            // console.log(data);
 
             // Pass coordinate info to the 'getForecast' function
             getForecast(data.coord);
@@ -45,8 +45,8 @@ function getForecast(obj) {
     var lat = obj.lat;
     var lon = obj.lon;
 
-    console.log ('Lat: ' + lat);
-    console.log ('Lon: ' + lon);
+    // console.log ('Lat: ' + lat);
+    // console.log ('Lon: ' + lon);
 
     // Create fetch URL with new lat and long data
     var forecastApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=' + apiKey;
@@ -59,8 +59,8 @@ function getForecast(obj) {
         })
 
         .then (function(data) {
-            console.log('Coord Data:');
-            console.log(data);
+            // console.log('Coord Data:');
+            // console.log(data);
             // Pass relevant info to the render function
             renderCurrentData(data.current);
             renderForecast(data.daily);
@@ -78,21 +78,22 @@ function renderCurrentData(obj) {
     currentDataEl.html('');
 
     // Declare variables from passed object
+    var currentDate = '';
     var currentTemp = obj.temp;
     var currentHumidity = obj.humidity;
     var currentWindSpeed = obj.wind_speed;
     var currentUvIndex = obj.uvi;
     var currentIcon = 'https://openweathermap.org/img/w/' + obj.weather[0].icon + '.png';
 
-    console.log('Current Temp: ' + currentTemp);
-    console.log('Current Humidity: ' + currentHumidity);
-    console.log('Current Wind Speed: ' + currentWindSpeed);
-    console.log('Current UV Index: ' + currentUvIndex);
+    // console.log('Current Temp: ' + currentTemp);
+    // console.log('Current Humidity: ' + currentHumidity);
+    // console.log('Current Wind Speed: ' + currentWindSpeed);
+    // console.log('Current UV Index: ' + currentUvIndex);
 
     // Declare template literal to append
     var currentWeatherContent = $(`
     <div class="card">
-        <h5 class="card-header">Current weather in: ${city} <img src = "${currentIcon}"></h5>
+        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${city} <img src = "${currentIcon}"></h5>
     <div class="card-body">
         <p class="card-text">Temperature: ${currentTemp} ℉ </p>
         <p class="card-text">Humidity: ${currentHumidity} % </p>
@@ -120,28 +121,51 @@ function renderForecast(obj) {
     // Create template literal to append
     var forecastDataContainer = $(`
     <div class="card">
-    <h5 class="card-header">5-Day Forecast</h5>
-    <div class="card-body" id="forecast-data-container">
+    <h5 class="card-header text-white bg-primary mb-3">5-Day Forecast</h5>
+    <div class="card-body card-container" id="forecast-data-container">
         
     </div>
     </div>
-    `)
+    `);
 
     // Append container to page
     forecastDataEl.append(forecastDataContainer);
 
     // Loop through days
+    for (i = 1; i < 6; i++) {
 
         // Declare element variable to append data to
+        var forecastContainer = $('#forecast-data-container');
 
         // Declare variables from passed object
+        var forecastDate = '';
+        var forecastTemp = obj[i].temp.day;
+        var forecastWindSpeed = obj[i].wind_speed;
+        var forecastHumidity = obj[i].humidity;
+        var forecastIcon = 'https://openweathermap.org/img/w/' + obj[i].weather[0].icon + '.png';
+
+        // console.log(forecastTemp);
+        // console.log(forecastWindSpeed);
+        // console.log(forecastHumidity);
 
         // Declare template literal to append
+        var forecastContent = $(`
+            <div class="card forecast-card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Day + ${i}</h5>
+                <img src="${forecastIcon}">
+                <p class="card-text">Temp: ${forecastTemp} ℉ </p>
+                <p class="card-text">Wind: ${forecastWindSpeed} MPH </p>
+                <p class="card-text">Humidity: ${forecastHumidity} % </p>
+            </div>
+            </div>
+        `)
 
         // Append card to container
+        forecastContainer.append(forecastContent);
+    }
+  
 }
-
-
 
 // Get user Input
 searchButtonEl.click(convertCity);

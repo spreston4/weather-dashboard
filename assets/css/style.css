@@ -1,0 +1,7 @@
+.card-container {
+    display: flex;
+}
+
+.forecast-card {
+    margin: 10px;
+}
