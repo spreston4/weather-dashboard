@@ -33,7 +33,7 @@ function convertCity(event) {
 
             // Pass coordinate info to the 'getForecast' function
             getForecast(data.coord);
-
+            
         })
 
 }
@@ -63,6 +63,7 @@ function getForecast(obj) {
             console.log(data);
             // Pass relevant info to the render function
             renderCurrentData(data.current);
+            renderForecast(data.daily);
         })
     
 }
@@ -91,8 +92,8 @@ function renderCurrentData(obj) {
     // Declare template literal to append
     var currentWeatherContent = $(`
     <div class="card">
+        <h5 class="card-header">Current weather in: ${city} <img src = "${currentIcon}"></h5>
     <div class="card-body">
-        <h5 class="card-title">Current weather in: ${city} <img src = "${currentIcon}"></h5>
         <p class="card-text">Temperature: ${currentTemp} ℉ </p>
         <p class="card-text">Humidity: ${currentHumidity} % </p>
         <p class="card-text">Wind Speed: ${currentWindSpeed} MPH</p>
@@ -106,6 +107,42 @@ function renderCurrentData(obj) {
 }
 
 // Function 'renderForecast' to display forecast data for selected location to 'resultsEl'
+function renderForecast(obj) {
+    console.log('Daily Data:')
+    console.log(obj);
+    
+    // Declare element variable to append data to
+    var forecastDataEl = $('#forecast-data');
 
+    // Clear any previous data
+    forecastDataEl.html('');
+
+    // Create template literal to append
+    var forecastDataContainer = $(`
+    <div class="card">
+    <h5 class="card-header">5-Day Forecast</h5>
+    <div class="card-body" id="forecast-data-container">
+        
+    </div>
+    </div>
+    `)
+
+    // Append container to page
+    forecastDataEl.append(forecastDataContainer);
+
+    // Loop through days
+
+        // Declare element variable to append data to
+
+        // Declare variables from passed object
+
+        // Declare template literal to append
+
+        // Append card to container
+}
+
+
+
+// Get user Input
 searchButtonEl.click(convertCity);
 
