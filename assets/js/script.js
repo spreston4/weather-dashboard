@@ -213,7 +213,54 @@ function addSearchHistory(city){
     }
 
 	// Render search history
-	//renderSearchHistory();
+	renderSearchHistory();
+}
+
+// Function 'renderSearchHistory' to render recently searched cities to the page
+function renderSearchHistory() {
+
+	// Declare element to append to
+	var searchHistoryEl = $('#search-history'); 
+
+	// Retrieve stored search history from local storage
+	var storedSearch = JSON.parse(localStorage.getItem("weatherDashboardHistory"));
+
+	// Reset container
+	searchHistoryEl.html('');
+
+	// Declare template literal to append
+	var searchHistoryContainer = $(`
+		<div class="card">
+		<h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
+		<button type="button" class="btn btn-light" id="clear-searches">Clear Searches</button>
+		<div class="card-body card-container" id="previous-search-container">
+        
+		</div>
+		</div>
+	`);
+
+	// Append to page
+	searchHistoryEl.append(searchHistoryContainer);
+
+	// Loop through search array
+	for (i = 0; i < storedSearch.length; i++) {
+
+		// Declare variable
+		var displayCity = storedSearch[i];
+
+		// Declare element to append to
+		var cityDisplayContainerEl = $('#previous-search-container');
+
+		// Declare template literal to append
+
+		var searchHistoryContent = $(`
+		<button type="button" class="btn btn-light history-button" data-content="${displayCity}">${displayCity}</button>
+		`);
+
+		// Append to page
+		cityDisplayContainerEl.append(searchHistoryContent);
+	
+	}
 }
 
 // Get user Input
