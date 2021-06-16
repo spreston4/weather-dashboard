@@ -10,37 +10,27 @@
 </head>
 <body>
     <!-- Header  / Search-->
-    <nav class="navbar navbar navbar-dark bg-dark">
+    <nav class="navbar navbar navbar-dark bg-primary">
         <div class="container-fluid">
           <a class="navbar-brand">Weather Dashboard</a>
           
           <form class="d-flex">
             <input class="form-control me-2" id="search-form" type="search" placeholder="Search for a city" aria-label="Search">
-            <button class="btn btn-outline-success" id="search-button" type="submit">Search</button>
+            <button class="btn btn-secondary" id="search-button" type="submit">Search</button>
           </form>
         </div>
       </nav>
 
       <!-- Div to hold and display results -->
-      <div>
-      
+      <div id="main-container">
           <!-- Display Search Results -->
           <div id="results-container">
-              <div id="current-data">
-
-              </div>
-              
-              <div id="forecast-data">
-
-              </div>
-              
+              <div id="current-data"></div>
+              <div id="forecast-data"></div>
           </div>
 
             <!-- Display search history -->
-            <div id="search-history">
-
-            </div>
-
+          <div id="search-history"></div>
       </div>
 
       <!-- Call jquery and js -->

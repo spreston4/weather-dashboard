@@ -1,3 +1,29 @@
+#main-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#search-history {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+#previous-search-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#previous-search-container button {
+    margin: 5px;
+}
+
+#results-container {
+    width: 75%;
+}
+
+
+
 .card-container {
     display: flex;
 }

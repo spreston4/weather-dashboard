@@ -249,8 +249,8 @@ function renderSearchHistory() {
 	var searchHistoryContainer = $(`
 		<div class="card">
 		<h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
-		<button type="button" class="btn btn-light" id="clear-searches">Clear Searches</button>
 		<div class="card-body card-container" id="previous-search-container">
+        <button type="button" class="btn btn-secondary" id="clear-searches">Clear Searches</button>
         
 		</div>
 		</div>
@@ -271,7 +271,7 @@ function renderSearchHistory() {
 		// Declare template literal to append
 
 		var searchHistoryContent = $(`
-		<button type="button" class="btn btn-light history-button" data-content="${displayCity}">${displayCity}</button>
+		<button type="button" class="btn btn-primary history-button" data-content="${displayCity}">${displayCity}</button>
 		`);
 
 		// Append to page
