@@ -36,6 +36,7 @@ function convertCity(event) {
             
         })
 
+    addSearchHistory(city);
 }
 
 // Function 'getForecast' to get forecast info for selected city coordinates
@@ -113,8 +114,10 @@ function renderCurrentData(obj) {
     // Declare template literal to append
     var currentWeatherContent = $(`
     <div class="card">
-        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${city} on ${currentDate}</h5>
+        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${city} </h5>
     <div class="card-body">
+        <h5 class="card-title">Today</h5>
+        <h6 class="card-subtitle mb-2 text-muted">${currentDate}</h6>
         <img src = "${currentIcon}">
         <p class="card-text">Temperature: ${currentTemp} ℉ </p>
         <p class="card-text">Humidity: ${currentHumidity} % </p>
@@ -188,6 +191,29 @@ function renderForecast(obj) {
         forecastContainer.append(forecastContent);
     }
   
+}
+
+// Function 'addSearchHistory' to add searched city to local storage
+function addSearchHistory(city){
+
+    // Declare variables
+    var cityArray = [];
+    var storedCities = JSON.parse(localStorage.getItem("weatherDashboardHistory"));
+    var storeCity = city;
+
+    // If local storage is empty, populate with current search city
+    if (storedCities == null) {
+        cityArray.push(storeCity);
+        localStorage.setItem("weatherDashboardHistory", JSON.stringify(cityArray));
+    // If local storage is not empty, add current search city to end
+    } else {
+        cityArray = storedCities;
+        cityArray.push(storeCity);
+        localStorage.setItem("weatherDashboardHistory", JSON.stringify(cityArray));
+    }
+
+	// Render search history
+	//renderSearchHistory();
 }
 
 // Get user Input
