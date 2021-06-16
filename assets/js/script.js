@@ -73,11 +73,15 @@ function renderCurrentData(obj) {
     // Declare element variable to append data to
     var currentDataEl = $('#current-data');
 
+    // Clear any previous data
+    currentDataEl.html('');
+
     // Declare variables from passed object
     var currentTemp = obj.temp;
     var currentHumidity = obj.humidity;
     var currentWindSpeed = obj.wind_speed;
     var currentUvIndex = obj.uvi;
+    var currentIcon = 'https://openweathermap.org/img/w/' + obj.weather[0].icon + '.png';
 
     console.log('Current Temp: ' + currentTemp);
     console.log('Current Humidity: ' + currentHumidity);
@@ -88,7 +92,7 @@ function renderCurrentData(obj) {
     var currentWeatherContent = $(`
     <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Current weather in: ${city}</h5>
+        <h5 class="card-title">Current weather in: ${city} <img src = "${currentIcon}"></h5>
         <p class="card-text">Temperature: ${currentTemp} ℉ </p>
         <p class="card-text">Humidity: ${currentHumidity} % </p>
         <p class="card-text">Wind Speed: ${currentWindSpeed} MPH</p>
