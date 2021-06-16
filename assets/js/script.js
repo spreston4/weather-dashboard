@@ -5,18 +5,36 @@ var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
 var clearButtonEl = $('#clear-searches');
+var historyButtonsEl = $('.history-button');
 var city = '';
+
+// Function 'submitSearch' to receive input from search bar
+function submitSearch(event) {
+
+    // Stop form reload
+  event.preventDefault();
+
+  // Get city value from search bar
+  city = searchFormEl.val();
+
+  // Pass to 'convertCity'
+  convertCity(city);
+  
+  // Add to search hostory
+  addSearchHistory(city);
+
+}
 
 
 // Function 'convertCity' to retrieve city info & convert to lat & long - required data not availble from city search.
-function convertCity(event) {
+function convertCity(city) {
 
-    // Stop form reload
-    event.preventDefault();
+    // // Stop form reload
+    // event.preventDefault();
 
-    // Get city value from search bar
-    city = searchFormEl.val();
-    // console.log(city);
+    // // Get city value from search bar
+    // city = searchFormEl.val();
+    // // console.log(city);
 
     // Create fetch URL with new city & apiKey data
     var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=standard&appid=' + apiKey;
@@ -36,8 +54,6 @@ function convertCity(event) {
             getForecast(data.coord);
             
         })
-
-    addSearchHistory(city);
 }
 
 // Function 'getForecast' to get forecast info for selected city coordinates
@@ -278,10 +294,26 @@ function clearSearchHistory() {
 	
 }
 
+// Function 'searchFromHistory' to search from a previously searched city button
+function searchFromHistory(event) {
+	
+	// Declare variable from clicked button data attribute
+	var previousCity = event.target.getAttribute("data-content");
+
+	// Assign variable as new search city
+	city = previousCity;
+    console.log(previousCity);
+    console.log(city);
+
+	// Pass to search function
+	convertCity(city);
+}
+
 
 // Get user Input
-searchButtonEl.click(convertCity);
+searchButtonEl.click(submitSearch);
 clearButtonEl.click(clearSearchHistory);
+historyButtonsEl.click(searchFromHistory);
 
 
 // Found date display help at the following pages:
