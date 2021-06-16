@@ -4,6 +4,7 @@ var searchButtonEl = $('#search-button');
 var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
+var clearButtonEl = $('#clear-searches');
 var city = '';
 
 
@@ -263,8 +264,24 @@ function renderSearchHistory() {
 	}
 }
 
+// Function 'clearSearchHistory' to remove previously searched cities
+function clearSearchHistory() {
+	
+	// Clear array
+	 cityArray = [];
+	
+	// Store cleared array in local storage
+	localStorage.setItem("weatherDashboardHistory", JSON.stringify(cityArray));
+
+	// Clear HTML
+    renderSearchHistory();
+	
+}
+
+
 // Get user Input
 searchButtonEl.click(convertCity);
+clearButtonEl.click(clearSearchHistory);
 
 
 // Found date display help at the following pages:
