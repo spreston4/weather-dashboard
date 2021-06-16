@@ -78,7 +78,8 @@ function renderCurrentData(obj) {
     currentDataEl.html('');
 
     // Declare variables from passed object
-    var currentDate = '';
+    var dateData = obj.dt;
+    var currentDate = new Date(dateData * 1000).toLocaleDateString("en-US"); 
     var currentTemp = obj.temp;
     var currentHumidity = obj.humidity;
     var currentWindSpeed = obj.wind_speed;
@@ -112,8 +113,9 @@ function renderCurrentData(obj) {
     // Declare template literal to append
     var currentWeatherContent = $(`
     <div class="card">
-        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${city} <img src = "${currentIcon}"></h5>
+        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${city} on ${currentDate}</h5>
     <div class="card-body">
+        <img src = "${currentIcon}">
         <p class="card-text">Temperature: ${currentTemp} ℉ </p>
         <p class="card-text">Humidity: ${currentHumidity} % </p>
         <p class="card-text">Wind Speed: ${currentWindSpeed} MPH</p>
@@ -157,7 +159,8 @@ function renderForecast(obj) {
         var forecastContainer = $('#forecast-data-container');
 
         // Declare variables from passed object
-        var forecastDate = '';
+        var forecastDateData = obj[i].dt;
+        var forecastDate = new Date(forecastDateData * 1000).toLocaleDateString("en-US");
         var forecastTemp = obj[i].temp.day;
         var forecastWindSpeed = obj[i].wind_speed;
         var forecastHumidity = obj[i].humidity;
@@ -172,6 +175,7 @@ function renderForecast(obj) {
             <div class="card forecast-card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Day + ${i}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${forecastDate}</h6>
                 <img src="${forecastIcon}">
                 <p class="card-text">Temp: ${forecastTemp} ℉ </p>
                 <p class="card-text">Wind: ${forecastWindSpeed} MPH </p>
@@ -188,4 +192,9 @@ function renderForecast(obj) {
 
 // Get user Input
 searchButtonEl.click(convertCity);
+
+
+// Found date display help at the following pages:
+// https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
+// https://timestamp.online/article/how-to-convert-timestamp-to-datetime-in-javascript
 
