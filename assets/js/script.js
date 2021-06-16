@@ -18,7 +18,7 @@ function convertCity(event) {
     console.log(city);
 
     // Create fetch URL with new city & apiKey data
-    var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKey;
+    var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=standard&appid=' + apiKey;
 
     // Fetch URL
     fetch(cityApi)
@@ -49,7 +49,7 @@ function getForecast(obj) {
     console.log ('Lon: ' + lon);
 
     // Create fetch URL with new lat and long data
-    var forecastApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&appid=' + apiKey;
+    var forecastApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=' + apiKey;
 
     // Fetch URL
     fetch(forecastApi)
@@ -61,11 +61,9 @@ function getForecast(obj) {
         .then (function(data) {
             console.log('Coord Data:');
             console.log(data);
+            // Pass relevant info to the render function
+            renderCurrentData(data.current);
         })
-
-    // Pass relevant info to the render function
-    renderCurrentData(data.current);
-
     
 }
 
@@ -87,8 +85,20 @@ function renderCurrentData(obj) {
     console.log('Current UV Index: ' + currentUvIndex);
 
     // Declare template literal to append
+    var currentWeatherContent = $(`
+    <div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Current weather in: ${city}</h5>
+        <p class="card-text">Temperature: ${currentTemp} ℉ </p>
+        <p class="card-text">Humidity: ${currentHumidity} % </p>
+        <p class="card-text">Wind Speed: ${currentWindSpeed} MPH</p>
+        <p class="card-text">UV Index: ${currentUvIndex} </p>
+    </div>
+    </div>
+    `);
 
     // Append to page
+    currentDataEl.append(currentWeatherContent);
 }
 
 // Function 'renderForecast' to display forecast data for selected location to 'resultsEl'
