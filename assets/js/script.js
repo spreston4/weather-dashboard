@@ -225,6 +225,14 @@ function addSearchHistory(city){
     // If local storage is not empty, add current search city to end
     } else {
         cityArray = storedCities;
+
+        // Check for duplicates
+        for (i = 0; i < cityArray.length; i++) {
+            if (storeCity === cityArray[i]) {
+                return;
+            }
+        }
+
         cityArray.push(storeCity);
         localStorage.setItem("weatherDashboardHistory", JSON.stringify(cityArray));
     }
