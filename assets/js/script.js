@@ -4,6 +4,9 @@ var searchButtonEl = $('#search-button');
 var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
+var currentDataEl = $('#current-data');
+var forecastDataEl = $('#forecast-data');
+var errorDisplayEl = $('#error-display');
 var historyButtonsEl = $('#previous-search-container');
 var citySearch = '';
 var cityDisplay = '';
@@ -22,6 +25,7 @@ function submitSearch(event) {
   
   // Reset Search input
   searchFormEl.val('');
+  errorDisplayEl.html('');
 
 }
 
@@ -36,7 +40,32 @@ function convertCity(citySearch) {
     fetch(cityApi)
 
         .then(function(response) {
-            return response.json();
+
+            // Check for valid input
+            if (response.status !== 200) {
+                console.log('error');
+
+               currentDataEl.html('');
+               forecastDataEl.html('');
+
+                errorDisplayEl.html(`
+                <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">Error: City not found</h5>
+                <h6 class="card-subtitle mb-2 text-muted">You searched for: ${citySearch}</h6>
+                <p class="card-text">Please search for a city. Example: 'Portland', 'Chicago', 'Tampa'</p>
+                </div>
+                </div>
+                `);
+
+                return;
+
+            } else {
+
+                return response.json();
+
+            }
+            
         })
 
         .then(function(data) {
@@ -77,9 +106,6 @@ function getForecast(obj) {
 
 // Function 'renderCurrentData' to display current weather data for selected location to 'currentDataEl'
 function renderCurrentData(obj) {
-
-    // Declare element variable to append data to
-    var currentDataEl = $('#current-data');
 
     // Clear any previous data
     currentDataEl.html('');
@@ -134,9 +160,6 @@ function renderCurrentData(obj) {
 
 // Function 'renderForecast' to display forecast data for selected location to 'resultsEl'
 function renderForecast(obj) {
-    
-    // Declare element variable to append data to
-    var forecastDataEl = $('#forecast-data');
 
     // Clear any previous data
     forecastDataEl.html('');
