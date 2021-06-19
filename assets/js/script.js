@@ -4,8 +4,8 @@ var searchButtonEl = $('#search-button');
 var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
-var clearButtonEl = $('#clear-searches');
-var historyButtonsEl = $('.history-button');
+var clearButtonEl = $('#previous-search-container');
+var historyButtonsEl = $('#previous-search-container');
 var city = '';
 
 // Function 'submitSearch' to receive input from search bar
@@ -258,7 +258,7 @@ function renderSearchHistory() {
 		<div class="card">
 		<h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
 		<div class="card-body card-container" id="previous-search-container">
-        <button type="button" class="btn btn-secondary" id="clear-searches">Clear Searches</button>
+        <button type="button" class="btn btn-secondary" id="clear-searches" data-value="clear">Clear Searches</button>
         
 		</div>
 		</div>
@@ -279,7 +279,7 @@ function renderSearchHistory() {
 		// Declare template literal to append
 
 		var searchHistoryContent = $(`
-		<button type="button" class="btn btn-primary history-button" data-content="${displayCity}">${displayCity}</button>
+		<button type="button" class="btn btn-primary history-button" data-value="${displayCity}">${displayCity}</button>
 		`);
 
 		// Append to page
@@ -303,25 +303,28 @@ function clearSearchHistory() {
 }
 
 // Function 'searchFromHistory' to search from a previously searched city button
-function searchFromHistory(event) {
-	
+function handleHistoryButton(event) {
+
 	// Declare variable from clicked button data attribute
-	var previousCity = event.target.getAttribute("data-content");
+	var clickValue = event.target.getAttribute("data-value");
+   
 
-	// Assign variable as new search city
-	city = previousCity;
-    console.log(previousCity);
-    console.log(city);
+	// Check value 
+    if (clickValue == null) {
+        return;
+    } else if (clickValue == 'clear') {
+        clearSearchHistory();
+    }
 
-	// Pass to search function
-	convertCity(city);
+    console.log(clickValue);
+	
 }
 
 
 // Get user Input
 searchButtonEl.click(submitSearch);
-clearButtonEl.click(clearSearchHistory);
-historyButtonsEl.click(searchFromHistory);
+var historyButtonsEl = $('#search-history');
+historyButtonsEl.click(handleHistoryButton);
 
 
 // Found date display help at the following pages:
