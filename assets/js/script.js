@@ -4,7 +4,6 @@ var searchButtonEl = $('#search-button');
 var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
-var clearButtonEl = $('#previous-search-container');
 var historyButtonsEl = $('#previous-search-container');
 var city = '';
 
@@ -249,43 +248,52 @@ function renderSearchHistory() {
 
 	// Retrieve stored search history from local storage
 	var storedSearch = JSON.parse(localStorage.getItem("weatherDashboardHistory"));
+    console.log(storedSearch);
 
 	// Reset container
 	searchHistoryEl.html('');
 
-	// Declare template literal to append
-	var searchHistoryContainer = $(`
-		<div class="card">
-		<h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
-		<div class="card-body card-container" id="previous-search-container">
-        <button type="button" class="btn btn-secondary" id="clear-searches" data-value="clear">Clear Searches</button>
+    // Stop from displaying if there is no history
+    if (storedSearch.length < 1) {
+        return;
+    } else {
         
-		</div>
-		</div>
-	`);
+        // Declare template literal to append
+	var searchHistoryContainer = $(`
+    <div class="card">
+    <h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
+    <div class="card-body card-container" id="previous-search-container">
+    <button type="button" class="btn btn-secondary" id="clear-searches" data-value="clear">Reset All</button>
+    
+    </div>
+    </div>
+`);
 
-	// Append to page
-	searchHistoryEl.append(searchHistoryContainer);
+// Append to page
+searchHistoryEl.html(searchHistoryContainer);
 
-	// Loop through search array
-	for (i = 0; i < storedSearch.length; i++) {
+// Loop through search array
+for (i = 0; i < storedSearch.length; i++) {
 
-		// Declare variable
-		var displayCity = storedSearch[i];
+    // Declare variable
+    var displayCity = storedSearch[i];
 
-		// Declare element to append to
-		var cityDisplayContainerEl = $('#previous-search-container');
+    // Declare element to append to
+    var cityDisplayContainerEl = $('#previous-search-container');
 
-		// Declare template literal to append
+    // Declare template literal to append
 
-		var searchHistoryContent = $(`
-		<button type="button" class="btn btn-primary history-button" data-value="${displayCity}">${displayCity}</button>
-		`);
+    var searchHistoryContent = $(`
+    <button type="button" class="btn btn-primary history-button" data-value="${displayCity}">${displayCity}</button>
+    `);
 
-		// Append to page
-		cityDisplayContainerEl.append(searchHistoryContent);
+    // Append to page
+    cityDisplayContainerEl.append(searchHistoryContent);
+
+}
+    }
+
 	
-	}
 }
 
 // Function 'clearSearchHistory' to remove previously searched cities
@@ -298,7 +306,12 @@ function clearSearchHistory() {
 	localStorage.setItem("weatherDashboardHistory", JSON.stringify(cityArray));
 
 	// Clear HTML
-    renderSearchHistory();
+    var searchHistoryEl = $('#search-history'); 
+    var currentDataEl = $('#current-data');
+    var forecastDataEl = $('#forecast-data');
+    searchHistoryEl.html('');
+    currentDataEl.html('');
+    forecastDataEl.html('');
 	
 }
 
@@ -320,7 +333,8 @@ function handleHistoryButton(event) {
 	
 }
 
-
+// Render Search History on load
+renderSearchHistory();
 // Get user Input
 searchButtonEl.click(submitSearch);
 var historyButtonsEl = $('#search-history');
