@@ -17,7 +17,7 @@ Built in Visual Studio with:
 ## How to
 When the application is loaded, enter a city in the search bar. Pressing the 'Search' button will display current and future weather data to the page. The searched city is added to the 'Previous Searches' section. The user can press the button of a previously searched city to review data for that city. To clear previous searches & reset current weather data, press the 'Reset All' button.
 
-![Weather Dashboard](./assets/images/dashboard2.PNG)
+![Weather Dashboard](./assets/images/dashboard3.PNG)
 
 ## User Story
 Given the following user story:
