@@ -10,6 +10,7 @@ var errorDisplayEl = $('#error-display');
 var historyButtonsEl = $('#previous-search-container');
 var citySearch = '';
 var cityDisplay = '';
+var dayArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 // Function 'submitSearch' to receive input from search bar
 function submitSearch(event) {
@@ -112,8 +113,10 @@ function renderCurrentData(obj) {
     currentDataEl.html('');
 
     // Declare variables from passed object
-    var dateData = obj.dt;
-    var currentDate = new Date(dateData * 1000).toLocaleDateString("en-US"); 
+    var dateData = new Date(obj.dt * 1000);
+    // var currentDate = new Date(dateData * 1000).toLocaleDateString("en-US"); 
+    var currentDate = dateData.toLocaleDateString("en-US");
+    var currentDay = dayArray[dateData.getDay()];
     var currentTemp = obj.temp;
     var currentHumidity = obj.humidity;
     var currentWindSpeed = obj.wind_speed;
@@ -144,7 +147,7 @@ function renderCurrentData(obj) {
     <div class="card">
         <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${cityDisplay} </h5>
     <div class="card-body">
-        <h5 class="card-title">Today</h5>
+        <h5 class="card-title">${currentDay}</h5>
         <h6 class="card-subtitle mb-2 text-muted">${currentDate}</h6>
         <img src = "${currentIcon}">
         <p class="card-text">Temperature: ${currentTemp} ℉ </p>
@@ -185,8 +188,9 @@ function renderForecast(obj) {
         var forecastContainer = $('#forecast-data-container');
 
         // Declare variables from passed object
-        var forecastDateData = obj[i].dt;
-        var forecastDate = new Date(forecastDateData * 1000).toLocaleDateString("en-US");
+        var forecastDateData = new Date(obj[i].dt * 1000);
+        var forecastDate = forecastDateData.toLocaleDateString("en-US");
+        var forecastDay = dayArray[forecastDateData.getDay()];
         var forecastTemp = obj[i].temp.day;
         var forecastWindSpeed = obj[i].wind_speed;
         var forecastHumidity = obj[i].humidity;
@@ -196,7 +200,7 @@ function renderForecast(obj) {
         var forecastContent = $(`
             <div class="card forecast-card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">Day + ${i}</h5>
+                <h5 class="card-title">${forecastDay}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">${forecastDate}</h6>
                 <img src="${forecastIcon}">
                 <p class="card-text">Temp: ${forecastTemp} ℉ </p>
