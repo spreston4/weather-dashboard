@@ -228,7 +228,6 @@ function renderSearchHistory() {
 
 	// Retrieve stored search history from local storage
 	var storedSearch = JSON.parse(localStorage.getItem("weatherDashboardHistory"));
-    console.log(storedSearch);
 
 	// Reset container
 	searchHistoryEl.html('');
@@ -320,7 +319,7 @@ function handleHistoryButton(event) {
         .then(function(data) {
     
             // Pass coordinate info to the 'getForecast' function
-            getForecast(data.coord);
+            getForecast(data);
             
         })
 	
