@@ -5,38 +5,32 @@ var searchFormEl = $('#search-form');
 var historyEl = $('#history-container');
 var resultsEl = $('#results-container');
 var historyButtonsEl = $('#previous-search-container');
-var city = '';
+var citySearch = '';
+var cityDisplay = '';
 
 // Function 'submitSearch' to receive input from search bar
 function submitSearch(event) {
 
-    // Stop form reload
+// Stop form reload
   event.preventDefault();
 
   // Get city value from search bar
-  city = searchFormEl.val();
+  citySearch = searchFormEl.val();
 
   // Pass to 'convertCity'
-  convertCity(city);
+  convertCity(citySearch);
   
-  // Add to search hostory
-  addSearchHistory(city);
+//   // Add to search hostory
+//   addSearchHistory(city);
 
 }
 
 
 // Function 'convertCity' to retrieve city info & convert to lat & long - required data not availble from city search.
-function convertCity(city) {
-
-    // // Stop form reload
-    // event.preventDefault();
-
-    // // Get city value from search bar
-    // city = searchFormEl.val();
-    // // console.log(city);
+function convertCity(citySearch) {
 
     // Create fetch URL with new city & apiKey data
-    var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=standard&appid=' + apiKey;
+    var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearch + '&units=standard&appid=' + apiKey;
 
     // Fetch URL
     fetch(cityApi)
@@ -46,11 +40,10 @@ function convertCity(city) {
         })
 
         .then(function(data) {
-            // console.log('City Data: ');
-            // console.log(data);
 
             // Pass coordinate info to the 'getForecast' function
-            getForecast(data.coord);
+            getForecast(data);
+        
             
         })
 }
@@ -59,11 +52,10 @@ function convertCity(city) {
 function getForecast(obj) {
 
     // Define variables for lat & long (needed for next API request)
-    var lat = obj.lat;
-    var lon = obj.lon;
-
-    // console.log ('Lat: ' + lat);
-    // console.log ('Lon: ' + lon);
+    var lat = obj.coord.lat;
+    var lon = obj.coord.lon;
+    cityDisplay = obj.name;
+    
 
     // Create fetch URL with new lat and long data
     var forecastApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=' + apiKey;
@@ -76,11 +68,9 @@ function getForecast(obj) {
         })
 
         .then (function(data) {
-            // console.log('Coord Data:');
-            // console.log(data);
-            // Pass relevant info to the render function
             renderCurrentData(data.current);
             renderForecast(data.daily);
+            addSearchHistory(cityDisplay);
         })
     
 }
@@ -104,11 +94,6 @@ function renderCurrentData(obj) {
     var currentIcon = 'https://openweathermap.org/img/w/' + obj.weather[0].icon + '.png';
     var uvColorClass = '';
 
-    // console.log('Current Temp: ' + currentTemp);
-    // console.log('Current Humidity: ' + currentHumidity);
-    // console.log('Current Wind Speed: ' + currentWindSpeed);
-    // console.log('Current UV Index: ' + currentUvIndex);
-
     // Determine what category of current UV Index, pass appropriate styling.
     if (currentUvIndex <= 5) {
 
@@ -130,7 +115,7 @@ function renderCurrentData(obj) {
     // Declare template literal to append
     var currentWeatherContent = $(`
     <div class="card">
-        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${city} </h5>
+        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${cityDisplay} </h5>
     <div class="card-body">
         <h5 class="card-title">Today</h5>
         <h6 class="card-subtitle mb-2 text-muted">${currentDate}</h6>
@@ -149,8 +134,6 @@ function renderCurrentData(obj) {
 
 // Function 'renderForecast' to display forecast data for selected location to 'resultsEl'
 function renderForecast(obj) {
-    console.log('Daily Data:')
-    console.log(obj);
     
     // Declare element variable to append data to
     var forecastDataEl = $('#forecast-data');
@@ -185,10 +168,6 @@ function renderForecast(obj) {
         var forecastHumidity = obj[i].humidity;
         var forecastIcon = 'https://openweathermap.org/img/w/' + obj[i].weather[0].icon + '.png';
 
-        // console.log(forecastTemp);
-        // console.log(forecastWindSpeed);
-        // console.log(forecastHumidity);
-
         // Declare template literal to append
         var forecastContent = $(`
             <div class="card forecast-card" style="width: 18rem;">
@@ -221,6 +200,7 @@ function addSearchHistory(city){
     if (storedCities == null) {
         cityArray.push(storeCity);
         localStorage.setItem("weatherDashboardHistory", JSON.stringify(cityArray));
+
     // If local storage is not empty, add current search city to end
     } else {
         cityArray = storedCities;
@@ -258,7 +238,7 @@ function renderSearchHistory() {
         return;
     } else {
         
-        // Declare template literal to append
+    // Declare template literal to append
 	var searchHistoryContainer = $(`
     <div class="card">
     <h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
@@ -291,9 +271,7 @@ for (i = 0; i < storedSearch.length; i++) {
     cityDisplayContainerEl.append(searchHistoryContent);
 
 }
-    }
-
-	
+}
 }
 
 // Function 'clearSearchHistory' to remove previously searched cities
@@ -350,6 +328,7 @@ function handleHistoryButton(event) {
 
 // Render Search History on load
 renderSearchHistory();
+
 // Get user Input
 searchButtonEl.click(submitSearch);
 var historyButtonsEl = $('#search-history');
