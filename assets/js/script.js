@@ -347,6 +347,8 @@ function handleHistoryButton(event) {
     
             // Pass coordinate info to the 'getForecast' function
             getForecast(data);
+            errorDisplayEl.html('');
+
             
         })
     }
