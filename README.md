@@ -46,8 +46,6 @@ THEN I am again presented with current and future conditions for that city
 ```
 
 ## Current Issues
-* Search previous city not functioning correctly.
-* Clear previous searches not functioning correctly.
 * Not adapted for mobile devices.
 
 ## Contact Me

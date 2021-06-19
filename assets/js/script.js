@@ -329,7 +329,22 @@ function handleHistoryButton(event) {
         clearSearchHistory();
     }
 
-    console.log(clickValue);
+    // Declare API variable
+    var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + clickValue + '&units=standard&appid=' + apiKey;
+
+    // Fetch URL
+    fetch(cityApi)
+
+        .then(function(response) {
+            return response.json();
+        })
+
+        .then(function(data) {
+    
+            // Pass coordinate info to the 'getForecast' function
+            getForecast(data.coord);
+            
+        })
 	
 }
 
