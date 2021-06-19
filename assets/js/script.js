@@ -20,8 +20,8 @@ function submitSearch(event) {
   // Pass to 'convertCity'
   convertCity(citySearch);
   
-//   // Add to search hostory
-//   addSearchHistory(city);
+  // Reset Search input
+  searchFormEl.val('');
 
 }
 
@@ -301,12 +301,16 @@ function handleHistoryButton(event) {
 
 	// Check value 
     if (clickValue == null) {
-        return;
-    } else if (clickValue == 'clear') {
-        clearSearchHistory();
-    }
 
-    // Declare API variable
+        return;
+
+    } else if (clickValue == 'clear') {
+
+        clearSearchHistory();
+
+    } else {
+
+        // Declare API variable
     var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + clickValue + '&units=standard&appid=' + apiKey;
 
     // Fetch URL
@@ -322,6 +326,8 @@ function handleHistoryButton(event) {
             getForecast(data);
             
         })
+    }
+
 	
 }
 
