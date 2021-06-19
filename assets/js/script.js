@@ -25,7 +25,7 @@ function submitSearch(event) {
   
   // Reset Search input
   searchFormEl.val('');
-  errorDisplayEl.html('');
+  
 
 }
 
@@ -100,6 +100,7 @@ function getForecast(obj) {
             renderCurrentData(data.current);
             renderForecast(data.daily);
             addSearchHistory(cityDisplay);
+            errorDisplayEl.html('');
         })
     
 }
@@ -347,8 +348,6 @@ function handleHistoryButton(event) {
     
             // Pass coordinate info to the 'getForecast' function
             getForecast(data);
-            errorDisplayEl.html('');
-
             
         })
     }

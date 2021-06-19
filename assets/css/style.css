@@ -57,3 +57,50 @@
     padding-right: 5px;
     border-radius: 3px;
 }
+
+@media screen and (max-width: 1200px) {
+
+    #search-history {
+        width: 15%;
+    }
+
+    #results-container {
+        width: 85%;
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+
+    #main-container {
+        flex-direction: column;
+    }
+
+    #search-history {
+        width: 100%;
+    }
+
+    #results-container {
+        width: 100%;
+    }
+
+    #previous-search-container {
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 690px) {
+    
+    .card-container {
+        flex-direction: column;
+        align-content: center !important;
+        justify-content: center !important;
+    }
+
+    #previous-search-container {
+        flex-direction: column;
+    }
+
+}

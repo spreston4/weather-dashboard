@@ -1,7 +1,7 @@
 # Weather Dashboard
 
 ## Description
-This application allows a user to search for current and future weather for a city. Upon searching a city, both current weather data and a 5-day forecast are displayed. The searched city is added to a search history that the user can re-visit later. This application uses the Open Weather Map API.
+This application allows a user to search for current and future weather for a city. Upon searching a city, both current weather data and a 5-day forecast are displayed. The searched city is added to a search history that the user can re-visit later. This application uses the Open Weather Map API. Design is responsive for all screen sizes.
 
 [Deployed Application](https://spreston4.github.io/weather-dashboard/)
 
@@ -44,9 +44,6 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
-
-## Current Issues
-* Not adapted for mobile devices.
 
 ## Contact Me
 GitHub: [spreston4](https://github.com/spreston4)
