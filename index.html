@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Link to personal CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Link to favicon -->
+    <link rel="shortcut icon" type="image/png" href="assets/images/weatherIcon.png" />
+
     <title>Weather Dashboard</title>
 </head>
+
 <body>
     <!-- Header  / Search-->
     <nav class="navbar navbar navbar-dark bg-primary">
         <div class="container-fluid">
           <a class="navbar-brand">Weather Dashboard</a>
-          
           <form class="d-flex">
             <input class="form-control me-2" id="search-form" type="search" placeholder="Search for a city" aria-label="Search">
             <button class="btn btn-secondary" id="search-button" type="submit">Search</button>
@@ -23,6 +31,7 @@
 
       <!-- Div to hold and display results -->
       <div id="main-container">
+
           <!-- Display Search Results -->
           <div id="results-container">
               <div id="current-data"></div>
@@ -34,9 +43,11 @@
           <div id="search-history"></div>
       </div>
 
-      <!-- Call jquery and js -->
+    <!-- Call jquery and js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript" src="./assets/js/script.js"></script>
+
 </body>
+
 </html>

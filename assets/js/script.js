@@ -2,12 +2,10 @@
 var apiKey = 'db43bc6aa07a0ca6b3366e8a7eba22c7';
 var searchButtonEl = $('#search-button');
 var searchFormEl = $('#search-form');
-var historyEl = $('#history-container');
-var resultsEl = $('#results-container');
 var currentDataEl = $('#current-data');
 var forecastDataEl = $('#forecast-data');
 var errorDisplayEl = $('#error-display');
-var historyButtonsEl = $('#previous-search-container');
+var historyButtonsEl = $('#search-history');
 var citySearch = '';
 var cityDisplay = '';
 var dayArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -15,7 +13,7 @@ var dayArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
 // Function 'submitSearch' to receive input from search bar
 function submitSearch(event) {
 
-// Stop form reload
+  // Stop form reload
   event.preventDefault();
 
   // Get city value from search bar
@@ -27,9 +25,7 @@ function submitSearch(event) {
   // Reset Search input
   searchFormEl.val('');
   
-
 }
-
 
 // Function 'convertCity' to retrieve city info & convert to lat & long - required data not availble from city search.
 function convertCity(citySearch) {
@@ -44,11 +40,12 @@ function convertCity(citySearch) {
 
             // Check for valid input
             if (response.status !== 200) {
-                console.log('error');
+            
+                // Clear displayed data
+                currentDataEl.html('');
+                forecastDataEl.html('');
 
-               currentDataEl.html('');
-               forecastDataEl.html('');
-
+                // Show error message
                 errorDisplayEl.html(`
                 <div class="card">
                 <div class="card-body">
@@ -65,16 +62,14 @@ function convertCity(citySearch) {
 
                 return response.json();
 
-            }
-            
+            } 
         })
 
         .then(function(data) {
 
-            // Pass coordinate info to the 'getForecast' function
+            // Pass data info to the 'getForecast' function
             getForecast(data);
         
-            
         })
 }
 
@@ -85,7 +80,6 @@ function getForecast(obj) {
     var lat = obj.coord.lat;
     var lon = obj.coord.lon;
     cityDisplay = obj.name;
-    
 
     // Create fetch URL with new lat and long data
     var forecastApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=' + apiKey;
@@ -94,16 +88,20 @@ function getForecast(obj) {
     fetch(forecastApi)
 
         .then(function(response) {
+
             return response.json();
+
         })
 
         .then (function(data) {
+
+            // Pass info to relevant functions
             renderCurrentData(data.current);
             renderForecast(data.daily);
             addSearchHistory(cityDisplay);
             errorDisplayEl.html('');
+
         })
-    
 }
 
 // Function 'renderCurrentData' to display current weather data for selected location to 'currentDataEl'
@@ -144,25 +142,25 @@ function renderCurrentData(obj) {
 
     // Declare template literal to append
     var currentWeatherContent = $(`
-    <div class="card">
-        <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${cityDisplay} </h5>
-    <div class="card-body">
-        <h5 class="card-title">${currentDay}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">${currentDate}</h6>
-        <img src = "${currentIcon}">
-        <p class="card-text">Temperature: ${currentTemp} ℉ </p>
-        <p class="card-text">Humidity: ${currentHumidity} % </p>
-        <p class="card-text">Wind Speed: ${currentWindSpeed} MPH</p>
-        <p class="card-text"> UV Index: <span class = "${uvColorClass} uv-display"> ${currentUvIndex} </span>
-    </div>
-    </div>
+        <div class="card">
+            <h5 class="card-header text-white bg-primary mb-3">Current weather in: ${cityDisplay} </h5>
+            <div class="card-body">
+                <h5 class="card-title">${currentDay}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${currentDate}</h6>
+                <img src = "${currentIcon}">
+                <p class="card-text">Temperature: ${currentTemp} ℉ </p>
+                <p class="card-text">Humidity: ${currentHumidity} % </p>
+                <p class="card-text">Wind Speed: ${currentWindSpeed} MPH</p>
+                <p class="card-text"> UV Index: <span class = "${uvColorClass} uv-display"> ${currentUvIndex} </span>
+            </div>
+        </div>
     `);
 
     // Append to page
     currentDataEl.append(currentWeatherContent);
 }
 
-// Function 'renderForecast' to display forecast data for selected location to 'resultsEl'
+// Function 'renderForecast' to display forecast data for selected location to 'forecastDataEl'
 function renderForecast(obj) {
 
     // Clear any previous data
@@ -170,12 +168,11 @@ function renderForecast(obj) {
 
     // Create template literal to append
     var forecastDataContainer = $(`
-    <div class="card">
-    <h5 class="card-header text-white bg-primary mb-3">5-Day Forecast</h5>
-    <div class="card-body card-container" id="forecast-data-container">
-        
-    </div>
-    </div>
+        <div class="card">
+            <h5 class="card-header text-white bg-primary mb-3">5-Day Forecast</h5>
+            <div class="card-body card-container" id="forecast-data-container">
+            </div>
+        </div>
     `);
 
     // Append container to page
@@ -199,21 +196,21 @@ function renderForecast(obj) {
         // Declare template literal to append
         var forecastContent = $(`
             <div class="card forecast-card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">${forecastDay}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">${forecastDate}</h6>
-                <img src="${forecastIcon}">
-                <p class="card-text">Temp: ${forecastTemp} ℉ </p>
-                <p class="card-text">Wind: ${forecastWindSpeed} MPH </p>
-                <p class="card-text">Humidity: ${forecastHumidity} % </p>
-            </div>
+                <div class="card-body">
+                    <h5 class="card-title">${forecastDay}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${forecastDate}</h6>
+                    <img src="${forecastIcon}">
+                    <p class="card-text">Temp: ${forecastTemp} ℉ </p>
+                    <p class="card-text">Wind: ${forecastWindSpeed} MPH </p>
+                    <p class="card-text">Humidity: ${forecastHumidity} % </p>
+                </div>
             </div>
         `)
 
         // Append card to container
         forecastContainer.append(forecastContent);
+
     }
-  
 }
 
 // Function 'addSearchHistory' to add searched city to local storage
@@ -231,6 +228,7 @@ function addSearchHistory(city){
 
     // If local storage is not empty, add current search city to end
     } else {
+
         cityArray = storedCities;
 
         // Check for duplicates
@@ -246,6 +244,7 @@ function addSearchHistory(city){
 
 	// Render search history
 	renderSearchHistory();
+
 }
 
 // Function 'renderSearchHistory' to render recently searched cities to the page
@@ -262,50 +261,51 @@ function renderSearchHistory() {
 
     // Stop from displaying if there is no history
     if (storedSearch.length < 1) {
+
         return;
+
     } else {
         
-    // Declare template literal to append
-	var searchHistoryContainer = $(`
-    <div class="card">
-    <h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
-    <div class="card-body card-container" id="previous-search-container">
-    <button type="button" class="btn btn-secondary" id="clear-searches" data-value="clear">Reset All</button>
-    
-    </div>
-    </div>
-`);
+        // Declare template literal to append
+        var searchHistoryContainer = $(`
+            <div class="card">
+                <h5 class="card-header text-white bg-primary mb-3">Previous Searches</h5>
+                <div class="card-body card-container" id="previous-search-container">
+                    <button type="button" class="btn btn-secondary" id="clear-searches" data-value="clear">Reset All</button>
+                </div>
+            </div>
+         `);
 
-// Append to page
-searchHistoryEl.html(searchHistoryContainer);
+        // Append to page
+        searchHistoryEl.html(searchHistoryContainer);
 
-// Loop through search array
-for (i = 0; i < storedSearch.length; i++) {
+        // Loop through search array
+        for (i = 0; i < storedSearch.length; i++) {
 
-    // Declare variable
-    var displayCity = storedSearch[i];
+            // Declare variable
+            var displayCity = storedSearch[i];
 
-    // Declare element to append to
-    var cityDisplayContainerEl = $('#previous-search-container');
+            // Declare element to append to
+            var cityDisplayContainerEl = $('#previous-search-container');
 
-    // Declare template literal to append
+            // Declare template literal to append
 
-    var searchHistoryContent = $(`
-    <button type="button" class="btn btn-primary history-button" data-value="${displayCity}">${displayCity}</button>
-    `);
+            var searchHistoryContent = $(`
+                <button type="button" class="btn btn-primary history-button" data-value="${displayCity}">${displayCity}</button>
+            `);
 
-    // Append to page
-    cityDisplayContainerEl.append(searchHistoryContent);
+            // Append to page
+            cityDisplayContainerEl.append(searchHistoryContent);
 
-}
-}
+        }
+    }
 }
 
 // Function 'clearSearchHistory' to remove previously searched cities
 function clearSearchHistory() {
 	
 	// Clear array
-	 cityArray = [];
+	cityArray = [];
 	
 	// Store cleared array in local storage
 	localStorage.setItem("weatherDashboardHistory", JSON.stringify(cityArray));
@@ -326,7 +326,6 @@ function handleHistoryButton(event) {
 	// Declare variable from clicked button data attribute
 	var clickValue = event.target.getAttribute("data-value");
    
-
 	// Check value 
     if (clickValue == null) {
 
@@ -338,14 +337,16 @@ function handleHistoryButton(event) {
 
     } else {
 
-        // Declare API variable
+    // Declare API variable
     var cityApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + clickValue + '&units=standard&appid=' + apiKey;
 
     // Fetch URL
     fetch(cityApi)
 
         .then(function(response) {
+
             return response.json();
+
         })
 
         .then(function(data) {
@@ -355,16 +356,13 @@ function handleHistoryButton(event) {
             
         })
     }
-
-	
 }
 
 // Render Search History on load
 renderSearchHistory();
 
-// Get user Input
+// Get user input / listner events
 searchButtonEl.click(submitSearch);
-var historyButtonsEl = $('#search-history');
 historyButtonsEl.click(handleHistoryButton);
 
 

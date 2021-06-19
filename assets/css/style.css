@@ -22,8 +22,6 @@
     width: 75%;
 }
 
-
-
 .card-container {
     display: flex;
 }
@@ -39,7 +37,6 @@
 
 .moderateUv {
 	background-color: yellow;
-	
 }
 
 .highUv {
@@ -67,7 +64,6 @@
     #results-container {
         width: 85%;
     }
-
 }
 
 @media screen and (max-width: 1000px) {
@@ -102,5 +98,4 @@
     #previous-search-container {
         flex-direction: column;
     }
-
 }
